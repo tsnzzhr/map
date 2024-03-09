@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet Draw Example</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet.draw CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+  <!-- Leaflet and Leaflet.draw JavaScript -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+</head>
+<body>
+
+<div id="map" style="height: 900px;"></div>
+
+<script>
+  // Initialize the map
+  var map = L.map('map').setView([0, 0], 2);
+
+  // Add the base tile layer (you can use any other tile layer as well)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Initialize the draw control and add it to the map
+  var drawControl = new L.Control.Draw({
+    draw: {
+      polygon: false,
+      marker: false,
+      circlemarker: false,
+      circle: false,
+      rectangle: false,
+    },
+    edit: {
+      featureGroup: new L.FeatureGroup(), // enables editing existing shapes
+    },
+  }).addTo(map);
+
+  // Event listener to save coordinates when a shape is drawn
+  map.on('draw:created', function (e) {
+    var layer = e.layer;
+    var coordinates = layer.getLatLngs();
+    console.log('Coordinates:', coordinates);
+  });
+
+</script>
+
+</body>
+</html>

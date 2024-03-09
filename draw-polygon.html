@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+    <style>
+        #map {
+            height: 1000px;
+            width: 80%;
+            float: right;
+        }
+
+        #sidebar {
+            width: 20%;
+            height: 100%;
+            float: left;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+    <title>OpenStreetMap - East Java, Indonesia</title>
+</head>
+<body>
+    <div id="map"></div>
+    <!-- <div id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#" onclick="flyToEastJava()">Fly to East Java</a></li>
+        </ul>
+    </div> -->
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+<script>
+  // Create a Leaflet map centered on a specific location
+  var map = L.map('map').setView([51.505, -0.09], 13);
+
+  // Add a tile layer to the map (you can use your preferred tile layer)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add Leaflet.draw toolbar to the map
+  var drawControl = new L.Control.Draw({
+    draw: {
+      polygon: true,
+      marker: false,
+      circle: false,
+      circlemarker: false,
+      polyline: false,
+      rectangle: false
+    },
+    edit: {
+      featureGroup: new L.FeatureGroup()
+    }
+  });
+  map.addControl(drawControl);
+
+  // Event listener for when a polygon is created
+  map.on('draw:created', function (e) {
+    var layer = e.layer;
+    map.addLayer(layer);
+
+    // You can access the polygon coordinates with layer.getLatLngs()
+    var coordinates = layer.getLatLngs();
+    console.log('Polygon Coordinates:', coordinates);
+
+    // You can also save the coordinates or perform further actions here
+  });
+</script>
+      
+</body>
+</html>
+
